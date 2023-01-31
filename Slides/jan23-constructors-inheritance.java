@@ -33,7 +33,7 @@ public class Point {
     // Most general constructor with params for all fields (x and y)
     public Point(int x, int y) {
         if (0 || x > X_MAX || y < 0 || y > Y_MAX) {
-            throw new IllegalArgumentException(“invalid x or y”);
+            throw new IllegalArgumentException("invalid x or y");
         }
         this.x = x;
         this.y = y;

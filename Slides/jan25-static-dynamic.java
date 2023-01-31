@@ -6,8 +6,8 @@ public class PointApp {
          * So any ColoredPoint instance (dynamic type) can be referred to by a Point variable (static type)
          */
         Point p1 = new Point(2,3);
-        ColoredPoint p2 = new ColoredPoint(4,5,”blue”);
-        Point p3 = new ColoredPoint(2,3,”red”);
+        ColoredPoint p2 = new ColoredPoint(4,5,"blue");
+        Point p3 = new ColoredPoint(2,3,"red");
     }
 }
 
@@ -18,7 +18,7 @@ public class PointApp {
         ColoredPoint p2 = new ColoredPoint(4, 5,"blue"); 
         // The following code will print out "blue"
         System.out.println(p2.getColor());
-        Point p3 = new ColoredPoint(2,3,”red”);
+        Point p3 = new ColoredPoint(2,3,"red");
         // The following code will print out "2"
         System.out.println(p3.getX());
         // The following code will print out ""p3 = 2, 3, red"
@@ -46,7 +46,7 @@ public class PointApp {
         // The following code WILL NOT COMPILE because the static type of p5 is "Point"
         // ONLY members of "Point" class can be syntactically referenced by p5
         // Since getColor() is not in the "Point" class, and thus the compiler flags error
-        Point p5 = new ColoredPoint(1, 2, green);
+        Point p5 = new ColoredPoint(1, 2, "green");
         System.out.println(p5.getColor()); 
     }
 }

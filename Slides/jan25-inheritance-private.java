@@ -28,7 +28,7 @@ public class ColoredPoint extends Point {
 public class PointApp {
     public static void
     main(String[] args) {
-        ColoredPoint cp = new ColoredPoint(4,5,”blue”);
+        ColoredPoint cp = new ColoredPoint(4,5,"blue");
         // The follwing line Will NOT COMPILE because "x" is private
         System.out.println(cp.x);
         // The following line will compile and prints "4" because the inherited getX() method is able to access the "x" field
