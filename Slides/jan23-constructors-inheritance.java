@@ -38,7 +38,7 @@ public class Point {
         this.x = x;
         this.y = y;
     }
-    // This code won't compile because there is a duplicate constructor: Point(int)
+    // This code Will NOT COMPILE because there is a duplicate constructor: Point(int)
     public Point (int x) {
         this(x, 0);
     }
@@ -79,11 +79,11 @@ Point p = new Point(3,4); // OK, p is (3,4)
 public class ColoredPoint
 extends Point {
     /*
-    int x,y;
-    public ColoredPoint() {
-        super();
-    }
-    */
+     * int x,y;
+     * public ColoredPoint() {
+     *     super();
+     * }
+     */
 }
 // Because the superclass Point does not have a no-arg constructor, the subclass ColoredPoint will not compile
 
