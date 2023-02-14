@@ -8,16 +8,16 @@
             "type": "java",
             "name": "Launch Current File",
             "request": "launch",
+            "vmArgs": "--module-path \"C:/Program Files/javafx-sdk-19.0.2.1/lib\" --add-modules javafx.controls,javafx.fxml",
             "mainClass": "${file}",
-            "vmArgs": "--module-path \"C:/Program Files/javafx-sdk-19.0.2.1/lib\" --add-modules=javafx.controls"
         },
         {
             "type": "java",
             "name": "Launch F2CApp",
             "request": "launch",
+            "vmArgs": "--module-path \"C:/Program Files/javafx-sdk-19.0.2.1/lib\" --add-modules javafx.controls,javafx.fxml",
             "mainClass": "f2c.app.F2CApp",
             "projectName": "F2CMVC Project_1da0ad39",
-            "vmArgs": "--module-path \"C:/Program Files/javafx-sdk-19.0.2.1/lib\" --add-modules=javafx.controls"
         }
     ]
 }
