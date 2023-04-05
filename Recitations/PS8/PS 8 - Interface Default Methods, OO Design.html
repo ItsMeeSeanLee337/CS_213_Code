@@ -1,0 +1,182 @@
+<html>
+<head>
+<title>CS 213 Fall 2021: Recitation 8</title>
+<style>
+body { font: 14px Trebuchet MS; }
+pre { color: blue; }
+tt { color: blue; }
+a, a:active, a:visited { color: blue; }
+</style>
+</head><body>
+<center><h2>Problem Set 8</h2></center>
+<center><h3>Interface Default Methods, OO Design</h3></center>
+<hr>
+<ol>
+<li>Interface Default Methods. 
+
+<p>For each of the following, tell whether the code will compile. If so,
+tell what will be printed, with reasoning. If not, explain why.
+<ol>
+<li>
+<pre>
+  public interface I {
+     private default void m() {
+        System.out.println("I:m");
+     }
+  }
+  public class X implements I {
+     public static void main(String[] args) {
+        new X().m();
+     }
+  }
+</pre>
+<li>
+<pre>
+  public interface I {
+     default void m1() {
+        System.out.println("I:m1");
+  }
+  public class X implements I {
+     public void m1() {
+        System.out.println("X:m1");
+     }
+     public static void main(String[] args) {
+        new XI().m1();
+     }
+  }
+</pre>
+<li>
+<pre>
+  public class X { 
+     public void m1() {
+        System.out.println("X:m1");
+     }
+  }
+  public interface I {
+     default void m1() {
+        System.out.println("I:m1");
+  }
+  public class XI extends X implements I {
+     public static void main(String[] args) {
+        new XI().m1();
+     }
+  }
+</pre>
+<li>
+<pre>
+  public interface A {
+     default void hello() {
+        System.out.println("A!");
+     }
+  }
+  public interface B extends A {
+     default void hello() {
+        System.out.println("B!");
+     }
+  }
+  public class C implements A, B {
+     public static void main(String[] args) {
+         new C().hello();
+     }
+ }
+</pre>
+<li>
+<pre>
+  public interface I {
+     default double getNumber() {
+        return 3.5;
+     }
+  }
+  public interface J {
+     default int getNumber() {
+        return 3;
+     }
+  }
+  public class X implements I, J {
+     public static void main(String[] args) {
+         System.out.println(new X().getNumber());
+     }
+ }
+</pre>
+<li>
+<pre>
+  public interface I {
+     default void name() {
+        System.out.println("I");
+     }
+  }
+
+  public interface J extends I { }
+
+  public interface K extends I { }
+
+  public class X implements J,K {
+     public static void main(String[] args) {
+         new X().name();
+     }
+ }
+</pre>
+</ol>
+<hr>
+<li><p>Suppose you design a class, <code>Set</code>, whose members
+behave like finite, unordered mathematical sets of
+integers, and can support the operations of membership 
+query, union of two sets, intersection of two sets, and 
+difference of two sets.
+
+<p>Consider the intersection operation.&nbsp; There are at 
+least two ways of declaring such an operation in the 
+class <code>Set</code>:
+<pre>    
+   public Set intersect(Set otherSet)
+</pre>
+or
+<pre>    
+   public static Set intersect(Set firstSet, Set secondSet)
+</pre>
+Give one pro and one con for the static version.
+<hr>
+</li><li>
+  <p>A game developer asks you to make a set of classes to represent
+    the monsters in a game. There are at least two different types
+    of monsters, those that walk and those that bounce, but the
+    code you write needs to be easily expandable to different types.
+    Specifically, the code to keep track of a monster's appearance
+    and to draw the monster needs to be in only one place. You are
+    given an interface to start out:
+    </p><pre>public interface Monster {
+    void drawMonster();
+    void setMonsterImage(Image i);
+    void updatePosition();
+}</pre>
+    Create an abstract base class <code>MovingMonster</code> for all monsters,
+    and one subclass for each of two types discussed,
+    <code>WalkingMonster</code> and <code>BouncingMonster</code>.
+    Each monster will need to keep track of its own position and
+    update it when the <code>updatePosition()</code> method is
+    invoked. Assumethat the Image class has a method
+    <code>draw(int x, int y)</code>. The contents of the
+    <code>updatePosition()</code> method are not important, but it
+    has to change the monster's position and be different for either
+    monster.
+    <p></p>
+  </li>
+<hr>
+<li>Suppose we need to have the <tt>Point</tt> and <tt>ColoredPoint</tt>
+classes provide functionality to parse text representations of points and
+colored points (as would be returned by the <tt>toString</tt>
+method), and return <tt>Point</tt> and <tt>ColoredPoint</tt> objects,
+respectively.
+<ol>
+<li>Show how you would implement this functionality. 
+<li>How much of the <tt>Point</tt> implementation of this functionality
+is reused in <tt>ColoredPoint</tt>? (Reuse meaning using code from <tt>Point</tt>
+by calling on it in <tt>ColoredPoint</tt>.) If yes, indicate which part, else 
+explain why not.
+<li>Does your implementation give rise to dynamic binding of the parsing
+functionality? (Recall that dynamic binding means 
+the subclass version of a method is "bound" to the call made via
+an object reference that is statically typed to the superclass.)
+</ol>
+</ol>
+</body></html>
