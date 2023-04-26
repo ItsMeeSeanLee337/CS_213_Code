@@ -1,0 +1,233 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+
+<title>CS 213 Fall 2021: Problem Set 9 Solution</title>
+<style>
+body { font: 14px Trebuchet MS; }
+pre,code,tt { color: blue; }
+a, a:active, a:visited { color: blue; }
+</style>
+</head><body>
+<center><h2>Problem Set 9 Solution</h2></center>
+<center><h3>Design Patterns</h3></center>
+<hr>
+<ol>
+<li>Draw a state diagram that models a user's shopping session at amazon.com, starting with a 
+search. Show the UML for an implementation using the state design
+pattern including key fields and headers for the methods in the states.
+
+<p><b>SOLUTION</b>
+
+<p>As an example, here are three 
+states: <b>matches</b>, <b>product detail</b> and <b>shopping cart</b>.
+When a user searches for a product, all matches are shown. When the user clicks
+on a match, the product detail is shown, and when the user adds a product to the
+shopping cart, the shopping cart is shown. The following shows a state transition
+table (a search can be done on any of these pages). For any cell (state i, state j),
+the action in that cell leads to a transition from state i to state j. 
+
+<pre>
+                      Matches             Product Detail         Shopping Cart
+-----------------------------------------------------------------------------------------
+Matches               Search              Click on a product     Click on shopping cart
+-----------------------------------------------------------------------------------------
+Product Detail        Search                    -                Click on Add to cart
+-----------------------------------------------------------------------------------------
+Shopping Cart         Search              Click on a product     Delete a product      
+-----------------------------------------------------------------------------------------
+</pre>
+
+<p>When a state is entered, a web page is displayed that is specific to that state.
+Each of the above states will be a concrete state class in the application,
+with methods to enter and process event. Here's a sample UML and some
+illustrative code.
+
+<p>FOR UML, see state_uml.png
+
+<p>
+<pre>
+public abstract class AmazonState {
+public void enter(AmazonContext context){}
+public void exit(AmazonContext context){}
+    public AmazonState handleAction(String action) throws Exception;
+}
+
+public class ProductDetailState extends AmazonState { ... }
+public class ShoppingCartState extends AmazonState { ... }
+public class MatchesState extends AmazonState {
+    private static MatchesState matchesState = null;
+    private MatchesState(){}
+    public AmazonState handleAction(String action) throws Exception{
+        if (action.equals("search")){
+           // rest of the search behaviour
+           return matchesState;
+        }else if (action.equals("clickProduct")){
+           // rest of the clickProduct behaviour
+           return productDetailState;
+        }
+        // other valid actions
+        else {
+           // unsupported action
+           // throw exception
+        }   
+    }
+}
+
+public class AmazonContext {
+    private AmazonState state;
+    private AmazonContext(AmazonState state) {
+        this.state= state;
+    }
+    public void performAction(String action) throws Exception {
+        AmazonState newState = state.handleAction(action);
+        if (newState != state) {
+           state.exit();
+           newState.enter();
+           this.state = newState;
+        }
+    }
+    public void setState(AmazonState state) {
+        this.state = state;
+    }
+    public AmazonState getState() {
+        return state;
+    }
+}
+</pre>
+
+<p><hr>
+<li>Show how you would enhance the Singleton pattern to allow up to a maximum number 
+of instances of an object. There should be a way for clients to recycle instances, i.e. 
+when a client is finished with an instance, it gives it up, and this instance can be 
+later dealt out in response to a new instance request. 
+
+<p><b>SOLUTION</b>
+
+<p>Keep an array of instances, and each time an instance  is
+requested, if any member of the array is null, create a new one and return it,
+otherwise return null (meaning no more instances are available).
+
+<p>Also keep a boolean array equal in size to the
+number of instances.  When an instance is "checked out", set the
+associated spot to true, and when an instance is "recycled", set the 
+associated spot to 0. When a client requests a requests a new instance, 
+return one of the available instances, or else return null if none are 
+available. 
+<hr>
+<li>Say you design a <code>BinaryTree</code> class. How will you use the
+<code>Iterator</code> design pattern to implement preorder, inorder, and
+postorder traversals, each of which just prints the data stored at each
+node? Sketch your design, and show how a client can call on the
+different traversals.
+<p>
+<b>SOLUTION</b>
+</p><p>
+Since the inorder, preorder, and postorder traversals use recursion, the state is 
+maintained by the compiler. Since the iterator needs to keep state (where it is 
+currently at) the solution is to use a stack in the tree traversal code itself, 
+instead of doing recursion. Here is the relevant code to implement the iterators, 
+with the complete code for inorder traversal.
+</p><pre>public class BinaryTree&lt;T&gt; {
+  static class BTNode&lt;E&gt; {
+     BTNode&lt;E&gt; left, right;
+     E data;
+     BTNode(BTNode&lt;E&gt; left, BTNode&lt;E&gt; right, E data) {
+        this.left = left; this.right = right; this.data = data;
+     }
+  }
+  // root of tree
+  BTNode&lt;T&gt; root;
+
+  ...
+
+  Iterator&lt;T&gt; inorderIterator() { return new BTInorderIterator&lt;T&gt;(root); }
+  Iterator&lt;T&gt; preorderIterator() { return new BTPreoderIterator&lt;T&gt;(root); }
+  Iterator&lt;T&gt; postorderIterator() { return new BTPostorderIterator&lt;T&gt;(root); }
+  ...
+}
+
+class BTInorderIterator&lt;E&gt; implements Iterator&lt;E&gt; {
+
+  Stack s;
+
+  BTInorderIterator(BinaryTree.BTNode&lt;E&gt; root) {
+     s = new Stack();
+     addAllLeftChildren(root);
+  }
+
+  void addAllLeftChildren(BinaryTree.BTNode&lt;E&gt; subtree) {
+     if (subtree == null) return;
+     s.push(subtree);
+     addAllLeftChildren(subtree.left);
+  }
+
+  public boolean hasNext() {
+     return !s.isEmpty();
+  }
+
+  public E next() {
+     BinaryTree.BTNode&lt;E&gt; t = s.pop();
+     addAllLeftChildren(t.right);
+     return t.data;
+  }
+
+  public void remove() 
+  throws UnsupportedOperationException {
+     throw new UnsupportedOperationException();
+  }
+}
+</pre>
+<hr>
+<li>
+You are asked to implement an application that can plot graphs of
+mathematical 
+functions, each function being of the form y = f(x). While there may
+be a choice 
+of functions that can be plotted, only one function is plotted at a
+time on a 
+given 2-D screen.
+How would you use the <tt>Template Method</tt> design pattern to build 
+your code? Write the outline of each class in your design, including
+relevant 
+fields, constructors, and methods - pick any two specific mathematical
+functions 
+to demonstrate the pattern.
+<p><b>SOLUTION</b>
+</p><p>The abstract class hosting the template method (NOT abstract)
+    and the
+hook method (abstract):
+</p><pre>public abstract class Plotter {
+
+   ... // constructor and methods to set up and manage drawing objects
+
+   public void draw(double[] xlist) { // template method, NOT abstract
+        ...  // set up graphing tools
+        for (int i=0; i &lt; xlist.length; i++) {
+            double y = computeY(xlist[i]);
+        }
+   }
+
+   protected abstract double computeY(double x);   // hook method
+}
+</pre>
+
+<p>A specific line plotter, using the function of the form
+<code>y = mx + b</code>
+
+</p><pre>public class LinePlotter extends Plotter {
+
+   double slope, yIntercept;
+
+   public LinePlotter(double double slope, double yIntercept) {
+       this.slope = slope; this.yIntercept = yIntercept;
+   }      
+
+   protected double computeY(double x) {  // implement hook 
+       return slope*x + yIntercept; 
+   }
+}
+</pre>
+Other function plotter classes can be similarly implemented.
+</ol>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+
+<title>CS 213 Spring 2023: Problem Set 10</title>
+<style>
+body { font: 14px Trebuchet MS; }
+pre { color: blue; }
+tt { color: blue; }
+a, a:active, a:visited { color: blue; }
+</style>
+</head><body>
+<center><h2>Problem Set 10</h2></center>
+<center><h3>Android</h3></center>
+<hr>
+<ol>
+<li>Write an Android app that can accept an order to make a sub.
+Have checkboxes to select (or unselect) items to add (lettuce, tomato, etc.)
+Have combo boxes or equivalent to 
+select one out of many (exclusive)
+options like the type of cheese to put in the sub.
+When the user confirms
+the order (via a button), display a message in a text area that lists
+the sub contents. Your UI doesn't have to be pretty - just 
+make it work correctly.
+<p><li>This is actually a demo of an application that uses images,
+and is likely to be useful for your Android app project.
+<p>
+The demo uses a <tt>GridView</tt> layout, 
+with images in the cells. <tt>ImageView</tt> and 
+<tt>ImageAdapter</tt> classes are used to lay out images, 
+and have users click on them to launch an action.
+
+<p>See the accompanying GridView.zip file for the code.</p>
+
+<p>This should be useful base line functionality for your Android project.
+
+<p>To import images into the drawable folder, see this at 
+<a href="https://stackoverflow.com/questions/29047902/how-to-add-an-image-to-the-drawable-folder-in-android-studio">stackoverflow</a>
+</ol>
+
+</ol>
+
+</body></html>
